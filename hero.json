@@ -1,0 +1,22 @@
+{
+  "heros": [
+    {
+      "id": 1,
+      "name": "李白",
+      "gender": "男",
+      "icon": "/public/images/131.jpg"
+    },
+    {
+      "id": 2,
+      "name": "飘忽若神",
+      "gender": "女",
+      "icon": "\\public\\images\\191.jpg"
+    },
+    {
+      "id": 3,
+      "name": "王者",
+      "gender": "男",
+      "icon": "\\public\\images\\133.jpg"
+    }
+  ]
+}

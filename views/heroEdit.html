@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Hero - Admin</title>
+  <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.css">
+  <script src="/node_modules/jquery/dist/jquery.js"></script>
+  <style>
+    .hero-list img {
+      width: 50px;
+    }
+
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="page-header container">
+      <h1>
+        <a href="/">王者荣耀</a>
+        <small>英雄管理器</small>
+      </h1>
+    </div>
+  </header>
+  <div class="container hero-list">
+    <form id="form">
+      <input type="hidden" name="id" value="{{ id }}">
+      <input type="hidden" name="origin_icon" value="{{ icon }}">
+      <div class="form-group">
+        <label for="inputEmail3" class="col-sm-2 control-label">英雄名称</label>
+        <div class="col-sm-10">
+          <input type="text" name="name" class="form-control" id="inputEmail3" placeholder="Email" value="{{ name }}">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="inputPassword3" class="col-sm-2 control-label">性别</label>
+        <div class="col-sm-10">
+         <!-- 男 -->
+          <label class="radio-inline">
+            <input type="radio" name="gender" {{gender==='男'?'checked':''}} id="inlineRadio1" value="男"> 男
+          </label>
+          <label class="radio-inline">
+            <input type="radio" name="gender" id="inlineRadio2" {{gender==='女'?'checked':''}} value="女"> 女
+          </label>
+         <!-- 女 -->
+          <!-- <label class="radio-inline">
+            <input type="radio" name="gender" id="inlineRadio1" value="男"> 男
+          </label>
+          <label class="radio-inline">
+            <input type="radio" name="gender" checked id="inlineRadio2" value="女"> 女
+          </label> -->
+          <!--  -->
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="inputPassword3" class="col-sm-2 control-label">头像</label>
+        <div class="col-sm-10">
+          <img src="{{ icon }}" alt="">
+          <input type="file" name="icon" id="exampleInputFile">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+          <button type="submit" class="btn btn-default">保存修改</button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <script>
+    $('#form').on('submit', function (e) {
+      // console.log(1);
+      // 阻止默认事件
+      e.preventDefault();
+
+      //参数一个HTMLElment对象,如果使用jquery获取表单对象时需要转成dom对象
+      /** 注意：我们应该在点击表单提交时才获取FormData */
+      var fordata = new FormData($('#form')[0]);
+      // console.log(fordata);
+      $.ajax({
+        url: '/heroEdit',
+        type: 'POST',
+        dataType: 'json',
+        /**
+         *必须false才会自动加上正确的Content-Type
+         */
+        contentType: false,
+        /**
+         * 必须false才会避开jQuery对 formdata 的默认处理
+         * XMLHttpRequest会对 formdata 进行正确的处理
+         */
+        processData: false,
+        data: fordata,
+        success: function (data) {
+          if (data.err_code == 0) {
+            // 返回首页并刷新
+            //添加成功，返回上一页并且刷新  self相当于window 是window的只读引用
+            // self.location = document.referrer;
+            location.href = '/';
+          } else {
+            alert(data.err_message);
+          }
+        }
+      });
+    });
+  </script>
+</body>
+
+</html>
